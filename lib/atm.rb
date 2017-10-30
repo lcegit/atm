@@ -12,7 +12,6 @@ class Atm
     @funds -=amount
   end
 
-
 =begin
   def status
   #  @status = status
