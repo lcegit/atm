@@ -5,7 +5,9 @@ class Atm
 
   def initialize
     @funds = 1000
-    @status == true || false
+#    @status = true || false
+    @active = true
+    @disabled = false
   end
 
   def withdraw(pin_code, amount, account)
@@ -47,12 +49,13 @@ private
     Date.strptime(exp_date, '%m/%y') < Date.today
   end
 
-  def account_status(status)
-    case
-    when @status == false
-      { status: false, message: 'card is disabled', date: Date.today }
-    else
-      @status == true
-    end
+  def account_disabled?(account_status)
+#    account_status != :active
+    account_status = :disabled
   end
+
+  def account_active?(account_status)
+    account_status = :active
+  end
+
 end
