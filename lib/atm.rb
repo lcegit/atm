@@ -1,7 +1,7 @@
 require 'date'
 
 class Atm
-  attr_accessor :funds, :status, :message
+  attr_accessor :funds, :status, :message, :account
 
   def initialize
     @funds = 1000
@@ -11,7 +11,7 @@ class Atm
   def withdraw(amount)
     @funds -=amount
   end
-
+end
 =begin
   def status
   #  @status = status
@@ -28,7 +28,7 @@ class Atm
       print 'no success'
     end
 end
-end
+=end
 =begin
     def message
       if success == true
