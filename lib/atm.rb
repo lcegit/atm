@@ -47,7 +47,7 @@ private
     Date.strptime(exp_date, '%m/%y') < Date.today
   end
 
-  def account_status()
+  def account_status(status)
     case
     when @status == false
       { status: false, message: 'card is disabled', date: Date.today }
