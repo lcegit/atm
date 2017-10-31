@@ -1,7 +1,7 @@
 require './lib/atm.rb'
 
 describe Atm do
-  let(:account) { instance_double('Account', pin_code: '1234' ) }
+  let(:account) { instance_double('Account', pin_code: '1234', exp_date: '12/17', account_status: :active) }
 
   before do
     allow(account).to receive(:balance).and_return(100)
@@ -13,33 +13,36 @@ describe Atm do
   end
 
   it 'funds are reduced at withdraw' do
-    subject.withdraw(50, '1234', account)
+    subject.withdraw('1234', 50, account)
     expect(subject.funds).to eq 950
   end
 
-  xit 'allow withdraw if account has enough balance.' do
+  it 'allow withdraw if account has enough balance.' do
     expected_output = { status: true, message: 'success', date: Date.today, amount: 45 }
-    expect(subject.withdraw(45, account)).to eq expected_output
+    expect(subject.withdraw('1234', 45, account)).to eq expected_output
   end
 
-  xit 'rejects withdraw if account has insufficient funds' do
-  expected_output = { status: false, message: 'insufficient funds', date: Date.today }
-  expect(subject.withdraw(105, account)).to eq expected_output
+  it 'rejects withdraw if account has insufficient funds' do
+    expected_output = { status: false, message: 'insufficient funds', date: Date.today }
+    expect(subject.withdraw('1234', 105, account)).to eq expected_output
   end
 
-  xit 'reject withdraw if pin is wrong' do
+  it 'reject withdraw if pin is wrong' do
     expected_output = { status: false, message: 'wrong pin', date: Date.today }
-    expect(subject.withdraw(50, 9999, account)).to eq expected_output
+    expect(subject.withdraw('9999', 50, account)).to eq expected_output
   end
 
-  xit 'reject withdraw if ATM has insufficient funds' do
-  # To prepare the test we want to decrease the funds value to a lower value then the original 1000
-  subject.funds = 50
-  # Then we set the `expected_output`
-  expected_output = { status: false, message: 'insufficient funds in ATM', date: Date.today }
-  # And prepare our assertion/expectation
-  expect(subject.withdraw(100, account)).to eq expected_output
-  #  subject.withdraw(50, '1234', account)
+  it 'reject withdraw if ATM has insufficient funds' do
+    # To prepare the test we want to decrease the funds value to a lower value then the original 1000
+    subject.funds = 50
+    expected_output = { status: false, message: 'insufficient funds in ATM', date: Date.today }
+    expect(subject.withdraw('1234', 100, account)).to eq expected_output
+  end
+
+  it 'reject withdraw if card is expired' do
+    allow(account).to receive(:exp_date).and_return('12/15')
+    expected_output = { status: false, message: 'card expired', date: Date.today }
+    expect(subject.withdraw('1234', 6, account)).to eq expected_output
   end
 
 end
