@@ -1,7 +1,7 @@
 require 'date'
 
 class Atm
-  attr_accessor :funds, :status, :message, :account
+  attr_accessor :funds, :status, :message, :account, :active, :disabled
 
   def initialize
     @funds = 1000
@@ -47,4 +47,12 @@ private
     Date.strptime(exp_date, '%m/%y') < Date.today
   end
 
+  def account_status()
+    case
+    when @status == false
+      { status: false, message: 'card is disabled', date: Date.today }
+    else
+      @status == true
+    end
+  end
 end

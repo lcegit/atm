@@ -45,4 +45,11 @@ describe Atm do
     expect(subject.withdraw('1234', 6, account)).to eq expected_output
   end
 
+  it 'account is disabled' do
+    expect(account_status).to receive(:status).and_return(:disabled)
+    expected_output = { status: false, message: 'card is disabled', date: Date.today }
+    expect(subject.withdraw('1234', 0, account)).to eq expected_output
+  end
+
+
 end
