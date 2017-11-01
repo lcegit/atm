@@ -13,15 +13,16 @@ class Atm
   def withdraw(pin_code, amount, account)
     case
     when insufficient_funds_in_account?(amount, account)
-      { status: false, message: 'insufficient funds', date: Date.today }
+      { status: false, message: 'insufficient funds', date: Date.today, account_status: :disabled }
     when insufficient_funds_in_atm?(amount)
-      { status: false, message: 'insufficient funds in ATM', date: Date.today }
+      { status: false, message: 'insufficient funds in ATM', date: Date.today, account_status: :disabled }
     when incorrect_pin?(pin_code, account.pin_code)
-      { status: false, message: 'wrong pin', date: Date.today }
+      { status: false, message: 'wrong pin', date: Date.today, account_status: :disabled }
     when card_expired?(account.exp_date)
-      { status: false, message: 'card expired', date: Date.today }
+      { status: false, message: 'card expired', date: Date.today, account_status: :disabled }
     else
       perform_transaction(amount, account)
+      { status: true, message: 'success', date: Date.today, amount: amount, account_status: :active }
     end
   end
 
@@ -42,16 +43,17 @@ private
   def perform_transaction(amount, account)
     @funds -=amount
     account.balance = account.balance - amount
-    { status: true, message: 'success', date: Date.today, amount: amount }
   end
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today
+    { status: false, message: 'card expired', date: Date.today, account_status: :disabled }
   end
 
   def account_disabled?(account_status)
-#    account_status != :active
-    account_status = :disabled
+    account_status != :active
+    { status: false, message: 'card is disabled', date: Date.today, account_status: :disabled }
+#    account_status = :disabled
   end
 
   def account_active?(account_status)
