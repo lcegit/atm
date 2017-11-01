@@ -18,43 +18,44 @@ describe Atm do
   end
 
   it 'allow withdraw if account has enough balance.' do
-    expected_output = { status: true, message: 'success', date: Date.today, amount: 45 }
+    expected_output = { status: true, message: 'success', date: Date.today, amount: 45, account_status: :active }
     expect(subject.withdraw('1234', 45, account)).to eq expected_output
   end
 
   it 'rejects withdraw if account has insufficient funds' do
-    expected_output = { status: false, message: 'insufficient funds', date: Date.today }
+    expected_output = { status: false, message: 'insufficient funds', date: Date.today, account_status: :disabled }
     expect(subject.withdraw('1234', 105, account)).to eq expected_output
   end
 
   it 'reject withdraw if pin is wrong' do
-    expected_output = { status: false, message: 'wrong pin', date: Date.today }
+    expected_output = { status: false, message: 'wrong pin', date: Date.today, account_status: :disabled }
     expect(subject.withdraw('9999', 50, account)).to eq expected_output
   end
 
   it 'reject withdraw if ATM has insufficient funds' do
     # To prepare the test we want to decrease the funds value to a lower value then the original 1000
     subject.funds = 50
-    expected_output = { status: false, message: 'insufficient funds in ATM', date: Date.today }
+    expected_output = { status: false, message: 'insufficient funds in ATM', date: Date.today, account_status: :disabled }
     expect(subject.withdraw('1234', 100, account)).to eq expected_output
   end
 
   it 'reject withdraw if card is expired' do
     allow(account).to receive(:exp_date).and_return('12/15')
-    expected_output = { status: false, message: 'card expired', date: Date.today }
+    expected_output = { status: false, message: 'card expired', date: Date.today, account_status: :disabled }
     expect(subject.withdraw('1234', 5, account)).to eq expected_output
   end
 
-  it 'rejects card / account is disabled' do
+  it 'account is disabled' do
     allow(account).to receive(:account_status).and_return(:disabled)
-    expected_output = { status: false, message: 'card is disabled', date: Date.today }
+    expected_output = { status: false, message: 'the account is disabled', date: Date.today, account_status: :disabled }
   #  expect(subject.withdraw('1234', 5, account)).not_to eq expected_output
     expect(subject.withdraw('1234', 5, account)).to eq expected_output
+
   end
 
   it 'account is active' do
     allow(account).to receive(:account_status).and_return(:active)
-    expected_output = { status: true, message: 'success', date: Date.today, amount: 15 }
+    expected_output = { status: true, message: 'success', date: Date.today, amount: 15, account_status: :active }
     expect(subject.withdraw('1234', 15, account)).to eq expected_output
   end
 

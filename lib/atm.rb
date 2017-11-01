@@ -6,8 +6,6 @@ class Atm
   def initialize
     @funds = 1000
 #    @status = true || false
-    @active = true
-    @disabled = false
   end
 
   def withdraw(pin_code, amount, account)
@@ -20,6 +18,8 @@ class Atm
       { status: false, message: 'wrong pin', date: Date.today, account_status: :disabled }
     when card_expired?(account.exp_date)
       { status: false, message: 'card expired', date: Date.today, account_status: :disabled }
+    when account_is_disabled?(account)
+      { status: false, message: 'the account is disabled', date: Date.today, account_status: :disabled }
     else
       perform_transaction(amount, account)
       { status: true, message: 'success', date: Date.today, amount: amount, account_status: :active }
@@ -42,22 +42,15 @@ private
 
   def perform_transaction(amount, account)
     @funds -=amount
-    account.balance = account.balance - amount
+    account.balance -= amount
   end
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today
-    { status: false, message: 'card expired', date: Date.today, account_status: :disabled }
   end
 
-  def account_disabled?(account_status)
-    account_status != :active
-    { status: false, message: 'card is disabled', date: Date.today, account_status: :disabled }
-#    account_status = :disabled
-  end
-
-  def account_active?(account_status)
-    account_status = :active
+  def account_is_disabled?(account)
+    account.account_status == :disabled
   end
 
 end
