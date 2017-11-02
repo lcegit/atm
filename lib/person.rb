@@ -1,15 +1,21 @@
 class Person
 
-attr_accessor :name, :cash, :account
+  attr_accessor :name, :cash, :account
 
-  def initialize
+  def initialize(name = nil)
+    @name = set_name(name)
     @cash = 0
-    @account
+    @account = nil
   end
 
-  def initialize(name)
-    @name = name
+  private
+
+  def set_name(obj)
+    obj == nil ?  missing_name : @name = obj
   end
 
+  def missing_name
+    raise "A name is required"
+  end
 
 end

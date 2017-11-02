@@ -3,7 +3,7 @@ require './lib/account.rb'
 describe Account do
 
 let(:person) { instance_double('Person', name: 'Thomas')}
-subject { described_class.new({owner: person}) }
+subject { described_class.new({owner: person}) } #described class = new instance add owner: person
 
 
   it 'is expected to have an owner' do
@@ -32,6 +32,10 @@ subject { described_class.new({owner: person}) }
   it 'deactivates account using Instance method' do
     subject.deactivate
     expect(subject.account_status).to eq :deactivated
+  end
+
+  it 'is expected to have a balance of 0 on initialize' do
+    expect(subject.balance).to eq 0
   end
 
 
