@@ -1,15 +1,13 @@
-require './lib/account_spec.rb'
+require './lib/account.rb'
 
 describe Account do
 
-  it 'has $1000 upon initialize' do
-    expect(subject.funds).to eq 1000
-  end
+let(:person) { instance_double('Person', name: 'Thomas')}
 
   it 'check length of a number' do
     number = 1234
-    number_length = Math.log10(number).to_i + 1
-    expect(number_length).to eq 4
+    pin_code_length = Math.log10(number).to_i + 1
+    expect(pin_code_length).to eq 4
   end
 
   it 'is expected to have an expiry date on initialize' do
@@ -17,4 +15,13 @@ describe Account do
     expect(subject.exp_date).to eq expected_date
   end
 
-end
+  it 'is expected to have :active status on initialize'
+    expect(subject.account_status).to eq :active
+  end
+
+  it 'deactivates account using Instance method' do
+    subject.deactivate
+    expect(subject.account_status).to eq :deactivated
+  end
+
+  
