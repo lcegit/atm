@@ -19,20 +19,20 @@ subject { described_class.new({owner: person}) }
     pin_code_length = Math.log10(number).to_i + 1
     expect(pin_code_length).to eq 4
   end
-=begin
+
   it 'is expected to have an expiry date on initialize' do
     expected_date = Date.today.next_year(5).strftime("%m/%y")
     expect(subject.exp_date).to eq expected_date
   end
 
-  xit 'is expected to have :active status on initialize' do
+  it 'is expected to have :active status on initialize' do
     expect(subject.account_status).to eq :active
   end
 
-  xit 'deactivates account using Instance method' do
+  it 'deactivates account using Instance method' do
     subject.deactivate
     expect(subject.account_status).to eq :deactivated
   end
-=end
+
 
 end
