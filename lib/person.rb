@@ -3,7 +3,13 @@ class Person
 attr_accessor :name, :cash, :account
 
   def initialize
-    @name = name
+    @cash = 0
+    @account
+  end
 
-end
+  def initialize(name)
+    @name = name
+  end
+
+
 end
