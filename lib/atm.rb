@@ -1,7 +1,7 @@
 require 'date'
 
 class Atm
-  attr_accessor :funds, :status, :message, :account, :active, :disabled
+  attr_accessor :funds, :status, :message, :account, :balance, :active, :disabled
 
   def initialize
     @funds = 1000
@@ -42,8 +42,22 @@ private
 
   def perform_transaction(amount, account)
     @funds -=amount
-    account.balance -= amount
+    account.balance = account.balance - amount
+    { status: true, message: 'success', date: Date.today, amount: amount, bills: add_bills(amount) }
   end
+
+  def add_bills(amount)
+    denominations = [20, 20, 5]
+    bills = []
+    denominations.each do |bill|
+      while amount - bill > amount - bill = 0
+        amount - bill = bill
+        bills << bill
+      end
+    end
+    bills
+  end
+
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today
