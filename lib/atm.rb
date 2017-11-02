@@ -22,7 +22,6 @@ class Atm
       { status: false, message: 'the account is disabled', date: Date.today, account_status: :disabled }
     else
       perform_transaction(amount, account)
-      { status: true, message: 'success', date: Date.today, amount: amount, account_status: :active }
     end
   end
 
@@ -41,7 +40,7 @@ private
   end
 
   def perform_transaction(amount, account)
-    @funds -=amount
+    @funds -= amount
     account.balance = account.balance - amount
     { status: true, message: 'success', date: Date.today, amount: amount, bills: add_bills(amount) }
   end
@@ -50,8 +49,8 @@ private
     denominations = [20, 10, 5]
     bills = []
     denominations.each do |bill|
-      while amount - bill > amount - bill = 0
-        amount - bill = bill
+      while amount - bill >= 0
+        amount -= bill
         bills << bill
       end
     end
