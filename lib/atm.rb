@@ -59,8 +59,6 @@ private
     bills
   end
 
-def deposit
-end
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today
