@@ -8,7 +8,7 @@ class Account
   attr_accessor :pin_code, :exp_date, :account_status
   attr_reader :person, :owner, :balance
 
-  def initialize(attrs = {}) #allows you to add several paramaters to attr
+  def initialize(attrs = {}) #allows you to add several paramaters to attrs
     #@owner = person
     @pin_code = generate_pin
     @account_status = :active
@@ -21,8 +21,6 @@ class Account
     @account_status = :deactivated
   end
 
-
-
   private
 
   def set_expiry_date
@@ -34,7 +32,7 @@ class Account
   end
 
   def set_owner(obj)
-    obj == nil ?  missing_owner : obj # if obj == nil => missing owner else @owner = obj
+    obj == nil ?  missing_owner : obj # if obj == nil => missing owner else @owner = obj [instance @owner]
   end
 
   def missing_owner
