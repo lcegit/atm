@@ -5,7 +5,9 @@ class Atm
 
   def initialize
     @funds = 1000
-#    @status = true || false
+    @account = account
+    @deposit = 100
+
   end
 
   def withdraw(pin_code, amount, account)
@@ -57,6 +59,8 @@ private
     bills
   end
 
+def deposit
+end
 
   def card_expired?(exp_date)
     Date.strptime(exp_date, '%m/%y') < Date.today

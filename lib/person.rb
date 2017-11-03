@@ -1,4 +1,5 @@
 require './lib/account'
+require './lib/atm'
 
 class Person
 
@@ -8,6 +9,10 @@ class Person
     @name = set_name(name)
     @cash = 0
     @account = nil
+  end
+
+  def create_account
+    @account = Account.new({owner: self})
   end
 
   private
@@ -20,8 +25,6 @@ class Person
     raise "A name is required"
   end
 
-  def create_account
-    @account = Account.new({owner: self})
-  end
+
 
 end

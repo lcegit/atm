@@ -17,12 +17,21 @@ describe Person do
   it 'is expected to have a :cash attribute with value of 0 on initialize' do
     expect(subject.cash).to eq 0
   end
-end
 
   describe 'can create an Account' do
    before { subject.create_account }
+
    it 'of Account class ' do
      expect(subject.account).to be_an_instance_of Account
    end
+ end
+
+ describe 'can manage funds if an account been created' do
+     let(:atm) { Atm.new }
+     before { subject.create_account }
+
+     xit 'can deposit funds' do
+       expect(subject.deposit(100)).to be_truthy
+  end
 
 end
