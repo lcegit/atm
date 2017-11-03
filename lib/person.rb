@@ -1,3 +1,4 @@
+require './lib/account'
 
 class Person
 
@@ -18,9 +19,9 @@ class Person
   def missing_name
     raise "A name is required"
   end
-=begin
+
   def create_account
     @account = Account.new({owner: self})
   end
-=end
+
 end
