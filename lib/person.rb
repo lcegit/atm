@@ -9,6 +9,7 @@ class Person
     @name = set_name(name)
     @cash = 0
     @account = nil
+    @deposit = 100
   end
 
   def create_account
@@ -16,9 +17,8 @@ class Person
   end
 
   def deposit_funds(amount)
-     @cash -= amount
-     @account.balance += amount
-   end
+     @account == nil ? no_account : @account.balance += amount
+  end
 
   private
 
@@ -30,7 +30,9 @@ class Person
     raise "A name is required"
   end
 
-
+  def no_account
+    raise "No account present"
+  end
 
 
 end

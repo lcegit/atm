@@ -6,7 +6,6 @@ class Atm
   def initialize
     @funds = 1000
     @account = account
-    @deposit = 100
 
   end
 
