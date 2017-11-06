@@ -1,5 +1,5 @@
 ## ATM ##
 
-# Working on second branch, need to implement some more functions ##
+## Working on second branch, need to implement a few more functions ##
 
-## Unable to merge with master branch ##
+### Unable to merge with master branch ###
